@@ -1,0 +1,427 @@
+[
+    {
+        "json": "open_1_do_open__do_sys_open_to_do_dentry_open",
+        "name": "open(1) do_sys_open",
+        "details": [
+            ["64c64967b12de7e4bbd7d912", "do_sys_openからexpand_file(get_unused_fd_flags)まで"],
+            ["cedcd6556aab946241a4a285", "do_sys_openから__set_open_fdまで"],
+            ["af0fcd81f439f3ce1e2d54ae", "do_sys_openからinit_fileまで"],
+            ["e24949a3211ce1cdec9b5596", "do_sys_openからpath_initまで"],
+            ["96c624bbeb37d516067647fa", "do_sys_openからlookup_fast(walk_dentry)まで"],
+            ["2aa702e824e8789e761b75e5", "do_sys_openからlookup_slow(walk_dentry)まで"],
+            ["d1b0bdf00c5f6dea6bcd60f2", "do_sys_openからdo_dentry_openまで"],
+            ["dd7af85c62a093b5c9422c74", "do_sys_openからf->f_op_open(do_dentry_open)まで"],
+            ["9a4c303ebd5ce650300d5023", "do_sys_openから__set_nameidataまで"],
+            ["d5c48100765c6052fb62a4da", "do_sys_openからfiles_fdtablesまで"]
+        ],
+        "summary": "do_sys_open\n    get_unused_fd_flags\n        alloc_fd\n            expand_file ⭐︎1\n            __set_open_fd ⭐︎2\n    do_filp_open\n        init_file ⭐︎3\n        path_init ⭐︎4\n        link_path_walk\n            lookup_fast ⭐︎5\n            lookup_slow ⭐︎6\n        do_dentry_open ⭐︎7\n            f->f_op->open ⭐︎8\n        set_nameidata\n            __set_nameidata ⭐︎9\n    fd_install\n        files_fdtables ⭐︎10"
+    },
+    {
+        "json": "open_2_ext4_file_open__ext4_file_open_to_jbd2_journal_init_jbd_inode",
+        "name": "open(2) ext4_open",
+        "details": [
+            ["287f99ca05f2afee8e5d2287", "ext4_file_openからjbd2_alloc_inodeまで"],
+            ["84ed47c15b1ed05b40d2466c", "ext4_file_openからjbd2_journal_init_jbd_inodeまで"]
+        ],
+        "summary": "ext4_file_open\n    ext4_inode_attach_jinode\n        jbd2_alloc_inode\n        jbd2_journal_init_jbd_inode"
+    },
+    {
+        "json": "open_3_ext4_lookup__ext4_lookup_to_ext4_dx_find_entry",
+        "name": "open(3) ext4_lookup",
+        "details": [
+            ["78707a6356cc0b56ff482562", "ext4_lookupからsubmit_bio(inline_submit)まで"],
+            ["c833f25caba75e57e1647dbf", "ext4_lookupからext4_match(inline_search)まで"],
+            ["405e63e53973defbf91d9878", "ext4_lookupからext4_map_blocks(dx_read_map)まで"],
+            ["33fa8620c5c36f7b5de998c6", "ext4_lookupからfind_get_block_common(dx_read_find)まで"],
+            ["bf3f64a1ccb389b1531e6437", "ext4_lookupからext4_match(dx_search)まで"]
+        ],
+        "summary": "ext4_lookup\n    ext4_find_inline_entry\n        submit_bio ⭐︎1\n        ext4_match ⭐︎2\n    ext4_dx_find_entry\n        ext4_map_blocks ⭐︎3\n        find_get_block_common ⭐︎4\n        ext4_match ⭐︎5"
+    },
+    {
+        "json": "read_1_ksys_read__ksys_read_to_read_iter",
+        "name": "read(1) ksys_read",
+        "details": [
+            ["f919e71547707a175f188d3d", "filp->f_op->read_iter"]
+        ]
+    },
+    {
+        "json": "read_2_ext4_file_read_iter__ext4_file_read_iter_to__copy_to_iter",
+        "name": "read(2) ext4_file_read_iter",
+        "details": [
+            ["11acc01054145f09a9a1cc11", "xas_load(read_from_xarray_cache)"],
+            ["09a45ea31e07928cffe5ba0d", "folio_batch_add(add_from_xarray_cache)"],
+            ["022d78d87ae1c147dfc2d9af", "filemap_create_folio(read_from_block:read_folio)"],
+            ["663f86e0823868532e1f3524", "filemap_update_page(stale_folio_read_from_block:read_folio)"],
+            ["da203ec94ef39b5adf78f174", "_copy_to_iter(each_folio_to_iter)"]
+        ],
+        "summary": "ext4_file_read_iter\n    filemap_read\n        filemap_get_read_batch\n            xas_load ⭐︎1\n            folio_batch_add ⭐︎2\n        filemap_create_folio ⭐︎3\n        filemap_update_page ⭐︎4\n    copy_folio_to_iter ⭐︎5"
+    },
+    {
+        "json": "read_3_ext4_read_folio__ext4_read_folio_to___submit_bio",
+        "name": "read(3) ext4_read_folio",
+        "details": [
+            ["9b649a3e358333ea50297fd7", "lookup_bh_lru(inline_get_block_from_lru)"],
+            ["579bbe51576bf38b3c036f0c", "filemap_get_entry(inline_get_block_from_xarray)"],
+            ["0d086584158d2ff485532354", "grow_dev_folio(inline_get_block_slow)"],
+            ["00ca55815abbf9dee29696c3", "__bio_add_page(inline_add_folio_to_bio)"],
+            ["5627e9b2af3051be528c6e24", "__submit_bio(inline___submit_bio)"],
+            ["4670e92d62e262f3e33a12d2", "queue_rq(inline__submit_bio_nvme_queue_rq)"],
+            ["4f99e9a12b7ba84dfe346e67", "rb_next(mpage_lookup_rb)"],
+            ["640983fa0165f37b3fe9ab98", "ext4_ext_binsearch(mpage_no_rb_ex_map_find)"],
+            ["f093aa3d4eae1595f252cdff", "ext4_mb_load_buddy(mpage_no_rb_ex_map_allocate)"],
+            ["c0e3f80564c7db218027df6b", "ext4_ext_grow_indepth(mpage_no_rb_ex_map_insert)"],
+            ["30649b42ede2c03a5eec97d7", "bdev_getblk(mpage_no_rb_ind_get_block)"],
+            ["9aafdda8f8087c07a36f1c2d", "submit_bh(mpage_no_rb_ind_read)"],
+            ["117100f08db9b0db6a86a4be", "ext4_splice_branch(mpage_no_rb_ind_splice)"],
+            ["e6b84f0b87871451e621476f", "ext4_es_try_to_merge_left(mpage_no_rb_ind_insert)"],
+            ["7a3e9fa0914e81d92d5c9f3a", "bio_init(mpage_bio_alloc)"],
+            ["7957a03f1811e5d6f7679da1", "bvec_set_page(mpage_bio_add_folio)"],
+            ["307486288d2e5749f8d78853", "__submit_bio(mpage___submit_bio)"]
+        ],
+        "summary": "ext4_read_folio\n    ext4_readpage_inline\n        ext4_get_inode_loc\n            sb_getblk\n                lookup_bh_lru ⭐︎1\n                __find_get_block_slow ⭐︎2\n            __getblk_slow\n                filemap_get_entry ⭐︎3\n            ext4_read_bh_nowait\n                __bio_add_page ⭐︎4\n                __submit_bio ⭐︎5\n                    queue_rq ⭐︎6\n    ext4_mpage_readpages\n        ext4_map_blocks\n            ext4_es_lookup_extent\n                rb_next ⭐︎7\n            ext4_map_query_blocks \n                ext4_ext_map_blocks\n                    ext4_find_extent\n                        ext4_ext_binsearch ⭐︎8\n                    ext4_mb_new_blocks\n                        ext4_mb_use_best_found ⭐︎9\n                    ext4_ext_insert_extent\n                        ext4_ext_grow_indepth ⭐︎10\n                ext4_ind_map_blocks\n                    ext4_get_branch\n                        bdev_getblk ⭐︎11\n                        submit_bh ⭐︎12\n                    ext4_splice_branch ⭐︎13\n                    ext4_es_insert_extent\n                        ext4_es_try_to_merge_left ⭐︎14\n        bio_init ⭐︎15\n        bvec_set_page ⭐︎16\n        __submit_bio ⭐︎17"
+    },
+    {
+        "json": "read_4_nvme_queue_rq__nvme_queue_rq_to_writel",
+        "name": "read(4) nvme_queue_rq",
+        "details": [
+            ["62fa87fa2cd2ced060475f24", "nvme_sect_to_lba(nvme_setup)"],
+            ["a5cbfb645313f8f77f01bd2e", "phys_to_dma_unencrypted(nvme_map_data_simple1)"],
+            ["348efbf454014888c610c1ec", "memcpy_from_page(nvme_map_data_simple2)"],
+            ["1a19fd3e8a5555cb1c32d110", "cma_range_alloc(nvme_setupdata_sgl_alloc)"],
+            ["a7ad406d31b72730c9f3808e", "dma_map_page_attrs(nvme_setupdata_sgl_map)"],
+            ["a5ba70472097b57d324f91ff", "__raw_writel(nvme_write)"]
+        ],
+        "summary": "nvme_queue_rq\n    nvme_prep_rq\n        nvme_sect_to_lba ⭐︎1\n    nvme_map_data\n        nvme_pci_setup_data_simple\n            phys_to_dma_unencrypted ⭐︎2\n            memcpy_from_page ⭐︎3\n        nvme_pci_setup_data_sgl\n            cma_range_alloc ⭐︎4\n            dma_map_page_attrs ⭐︎5\n    nvme_write_sq_db\n        __raw_writel ⭐︎6"
+    },
+    {
+        "json": "close_1_close__close_to_free",
+        "name": "close(1) close",
+        "details": [
+            ["1842b9e68e3f8bc009d812ba", "__put_unused_fd(fd_clear_open_fd)"],
+            ["d97a38e75625dfea8ffd26e6", "__file_ref_put_badval(fput_file_ref_put)"],
+            ["aa2616c62e648387c0c2cf90", "file->f_op->release(fput_release)"],
+            ["dbd7f00041d446baea1dcc42", "___d_drop(fput_close_dentry_drop)"],
+            ["ab3ed5ab89b69df6ae2c8344", "list_del_init(fput_close_lru_del)"],
+            ["a24de469552566431a8cbf8d", "evict_inode(fput_close_unlink_evict_inode)"],
+            ["cbb745c5648e60438851501a", "xas_store(fput_close_unlink_evict_trucate_inode_xarray)"],
+            ["ea8dc1e2f06a01cf603380f3", "filemap_free_folio(fput_close_unlink_evict_trucate_inode_free_folio)"],
+            ["5b7ec3848300a54de8e43510", "free_folio(fput_close_unlink_evict_trucate_inode_free_folio2)"],
+            ["2063c8fa12d5b3562fd04d01", "ptep_get_and_clear(fput_close_unlink_evict_trucate_inode_folio_pte)"],
+            ["a0df9df57ce623884742cbda", "xas_store(fput_close_unlink_evict_trucate_inode_folio_remove_cache_xarray)"],
+            ["4b1d0873099d7d02b0df7034", "filemap_free_folio(fput_close_unlink_evict_trucate_inode_folio_free)"],
+            ["aa69547323cc69de50890fbe", "ops->destroy_inode(fput_close_unlink_evict_destory_inode)"],
+            ["31e3cfce8cb5694ed27d4b1c", "__d_free(fput_close_unlink_dentry_free)"],
+            ["8eaa7c308fbac702a20aa99b", "__unmount_mnt(fput_file_free_mntput)"]
+        ]
+    },
+    {
+        "json": "close_2_ext4_release_file__ext4_release_file_to_ext4_clear_bit",
+        "name": "close(2) ext4_release_file",
+        "details": [
+            ["8537d0aaac27f2f4a2b69994", "mb_find_buddy(release_discard_preallocation_mb_find)"],
+            ["8df24d39569afaa21e4e9673", "ext4_clear_bit(release_discard_preallocation_mb_clear_bit)"],
+            ["30ffac0e562d5cb758c2e287", "ext4_mb_pa_free(release_discard_preallocation_mb_pa_free)"],
+            ["9aad05c1f75acf8c9cc72cee", "free_rb_tree_fname(release_free_rb_tree)"]
+        ]
+    },
+    {
+        "json": "close_3_evict_inode__ext4_evict_inode_to_mark_buffer_dirty_inode",
+        "name": "close(3) ext4_evict_inode",
+        "details": [
+            ["204c2a0226ef1a934c935caa", "evict_inodeからmark_buffer_dirty_inode(simple)まで"],
+            ["9849a3d1b7c71a62f3a03632", "evict_inodeからmark_buffer_dirty_inodeまで"],
+            ["7549b50dfe64efdc839b1d90", "evict_inodeからclear_inodeまで"]
+        ]
+    },
+    {
+        "json": "close_4_destroy_inode",
+        "name": "close(4) ext4_destroy_inode",
+        "details": []
+    },
+    {
+        "json": "write_1__write_iter_to_direct_IO",
+        "name": "write(1) directIO",
+        "details": []
+    },
+    {
+        "json": "write_2__write_iter_to_write_begin",
+        "name": "write(2) write_iter begin",
+        "details": [
+            ["6d049ddd6471a14ef39ad831", "generic_file_write_iterからwrite_beginまで"]
+        ]
+    },
+    {
+        "json": "write_3__write_iter_to_writepages.json",
+        "name": "write(3) write_iter write_pages",
+        "details": [
+            ["2103ca19cada481f2fc55a5a", "generic_file_write_iterからwrite_pagesまで"]
+        ]
+    },
+    {
+        "json": "write_ext4_1__get_block",
+        "name": "write_ext4(1) get_blocks",
+        "details": [
+            ["09129667d08575d9eca1abc7", "ext4_get_blockからmb_find_buddyまで"],
+            ["319051814591e7a8b48d6a51", "ext4_get_blockからext4_ext_insert_extentまで"],
+            ["9e47daba46f4e95a271752c5", "ext4_get_blockからmap_bh"]
+        ]
+    },
+    {
+        "json": "write_ext4_2__write_begin_to_journal",
+        "name": "write_ext4(2) write_begin journal",
+        "details": [
+            ["51b5fdc99908b906413883c8", "ext4_write_beginからjbd2_alloc_handleまで"],
+            ["ceb98b37964e4e9b3d4cae84", "ext4_write_beginからjbd2_get_transactionまで"]
+        ]
+    },
+    {
+        "json": "write_ext4_3__write_begin_to_ ext4_block_write_begin",
+        "name": "write_ext4(3) write_begin block_write_begin",
+        "details": [
+            ["f57caeb472a723e0516571cd", "ext4_write_beginからkmem_cache_zallocまで"]
+        ]
+    },
+    {
+        "json": "write_ext4_4__write_end_to_ mark_inode_dirty",
+        "name": "write_ext4(4) write_end",
+        "details": [
+            ["0437c367f314d823552acd63", "ext4_write_endからdirty_inodeまで"],
+            ["d36123801692da35ffa803e5", "ext4_write_endからext4_handle_dirty_metadataまで"]
+        ]
+    },
+    {
+        "json": "write_ext4_5__writeback_to_writepage_and_writeinode",
+        "name": "write_ext4(5) writeback",
+        "details": [
+            ["8ca97e9379cc4efd60f478dd", "wb_workfnからwritepagesまで"],
+            ["4f893838b792cd72fc9b4ccb", "wb_workfnからwrite_inodeまで"],
+            ["098b15abf2a605ced904bb9a", "wb_workfnからwriteback_sb_inodesまで"]
+        ]
+    },
+    {
+        "json": "write_ext4_6__writepage_to_blk_mq",
+        "name": "write_ext4(6) writepage",
+        "details": [
+            ["caaf3c4a9bb6d51b5a836d11", "ext4_writepageからinsert_requestsまで"],
+            ["ef631da6952b14a9fcb33ff6", "ext4_writepageからmb_find_buddyまで"],
+            ["3cce3af3f7ac4159959672d8", "ext4_writepageからext4_mb_new_preallocationまで"],
+            ["40e7aa969c74fe89a80d3e00", "ext4_writepageからext4_mb_generate_buddyまで"],
+            ["e8d8c7af7a21467d646656fa", "ext4_writepageからjbd2_journal_file_inodeまで"],
+            ["4775655557ad1f5af0d37319", "ext4_writepageからmpage_submit_folioまで"]
+        ]
+    },
+    {
+        "json": "write_ext4_7__dd_insert_requests",
+        "name": "write_ext4(7) insert_request",
+        "details": [
+            ["8b5f7ee9b2e361eb9f21be11", "dd_insert_requestsからblk_try_req_mergeまで"],
+            ["8f26bb8b380b1fee568b52f3", "dd_insert_requestsからrequests_mergedまで"]
+        ]
+    },
+    {
+        "json": "write_ext4_8__ blk_mq_run_work_fn",
+        "name": "write_ext4(8) blk_mq",
+        "details": [
+            ["bc045b8516db98ad9e99dda8", "blk_mq_run_work_fnからdispatch_requestまで"],
+            ["3b1c8b8b4341f0f910d64939", "blk_mq_run_work_fnからqueue_rqまで"]
+        ]
+    },
+    {
+        "json": "write_ext4_9__ dispatch_request",
+        "name": "write_ext4(9) dispatch_request",
+        "details": [
+            ["a5e4c29450961e184c58e6e0", "dd_dispatch_requestからblk_rq_posまで"],
+            ["bf2614cb28388daccf76ba95", "dd_dispatch_requestからrq_entry_fifoまで"]
+        ]
+    },
+    {
+        "json": "write_ext4_10__ pci_nvme_queue_rq",
+        "name": "write_ext4(10) nvme queue",
+        "details": [
+            ["fd9ce3f210f86be6491feb2e", "nvme_queue_rqから__raw_writelまで"]
+        ]
+    },
+    {
+        "json": "write_ext4_11__nvme_irq",
+        "name": "write_ext4(11) nvme irq",
+        "details": [
+            ["54be426702af376b3e7fb93e", "nvme_irqからsend_call_function_single_ipiまで"]
+        ]
+    },
+    {
+        "json": "fork_1_mm__kernel_clone_to__set_pte_nosync",
+        "name": "fork(1) mm",
+        "details": [
+            ["422251942c48e7561c5ed40d", "kenrel_cloneからset_pudまで"],
+            ["838df9d6fb29b4b7b02bd9a1", "kernel_cloneから__set_pte_nosyncまで"],
+            ["b8b3c7f40d9e051aeea33e75", "kernel_cloneからset_pmd_atまで"],
+            ["f6cee581d4536fac4cbb0d77", "kernel_cloneからset_p4dまで"]
+        ]
+    },
+    {
+        "json": "fork_2_cow__handle_page_fault_to_copy_page",
+        "name": "fork(2) mm cow",
+        "details": [
+            ["6cb1600ae0f52925c77dcc69", "handle_page_faultからcopy_pageまで"],
+            ["d5d2e027303e4012a97f3a91", "handle_page_faultからwp_page_reuseまで"],
+            ["18b2adf56bba84c509ff8abb", "handle_page_faultからset_pmd_atまで"],
+            ["42fa278d8bc17e0f0f632591", "handle_page_faultから__set_pte_nosyncまで"]
+        ]
+    },
+    {
+        "json": "fork_3_task_struct__kernel_clone_to_slab",
+        "name": "fork(3) task_struct",
+        "details": [
+            ["bfef7a2fee081f23f5935c2a", "kernel_cloneからkmem_cache_alloc_node_noprofまで"],
+            ["8913039bc9c3b714b469728e", "kernel_cloneからbitmap_copyまで"],
+            ["d9430bd53977d4d810111030", "kernel_cloneからarch_dup_task_structまで"]
+        ]
+    },
+    {
+        "json": "fork_4_thread__kernel_clone_to_copy_thread",
+        "name": "fork(4) thread",
+        "details": [
+            ["5ec0cdb11728aab26c725a4a", "kernel_cloneからkmemdupまで"],
+            ["1f5bb6db7bdfae94f1630a65", "kernel_cloneからalloc_gcsまで"]
+        ]
+    },
+    {
+        "json": "fork_5_fs__kernel_clone_to_ kmem_cache_alloc",
+        "name": "fork(5) fs",
+        "details": [
+            ["754614a99c3812952ab505f5", "kernel_cloneからkmem_cache_allocまで"]
+        ]
+    },
+    {
+        "json": "fork_6_file__kernel_clone_to_bitmap_copy_and_extend",
+        "name": "fork(6) file",
+        "details": [
+            ["74ac4340d0b5adc79aa0fe96", "kernel_cloneからkvmalloc_arrayまで"],
+            ["551c21a4de725fbdeb288072", "kernel_cloneからbitmap_copy_and_extendまで"]
+        ]
+    },
+    {
+        "json": "fork_7_resched__kernel_clone_to_rq_clock_task",
+        "name": "fork(7) resched",
+        "details": [
+            ["129389c18d6c9ada5b0dcf54", "kernel_cloneから_update_idle_rq_clock_peltまで"],
+            ["8ecd71d533d92cd5a5eba0bc", "kernel_cloneからarch_smp_send_rescheduleまで"],
+            ["d993cae334de80460dcc5a21", "kernel_cloneからwakeup_preemptまで"],
+            ["3fcfd6ba1c4c5f4781c17973", "kernel_cloneからset_task_rq_fairまで"],
+            ["5683386c54960ee021f869fd", "kernel_cloneからdo_wait_for_commonまで"]
+        ]
+    },
+    {
+        "json": "exec_1__do_execve_to_load_binary",
+        "name": "exec(1) do_execve",
+        "details": [
+            ["71c681d7d4d23723eb666760", "do_execveからload_binaryまで"],
+            ["c9e957d9bb2dfa7a14460d0d", "do_execveからread_iterまで"],
+            ["35d9ee4180c2d2f91e98e28f", "do_execveからdo_dentry_openまで"],
+            ["27c4bada994cb75a900a0739", "do_execveからallocate_mmまで"]
+        ]
+    },
+    {
+        "json": "exec_2__load_elf_binary_to_vma_set_range",
+        "name": "exec(2) load_elf_binary 1",
+        "details": [
+            ["a600553438b05300251acbef", "load_elf_binaryからvma_set_rangeまで"],
+            ["cbe38a02f69cb8cfb31cbaf1", "load_elf_binaryから__vma_start_writeまで"],
+            ["0f77a8f8195aa6040070cf3f", "load_elf_binaryからanon_vma_cloneまで"],
+            ["b261e69706fbc27a3d88fdd1", "load_elf_binaryからvfs_mmapまで"],
+            ["b167df5028589949c4c61436", "load_elf_binaryからvma_set_page_protまで"],
+            ["07656422c4041545e681e369", "load_elf_binaryからmas_empty_area_revまで"]
+        ]
+    },
+    {
+        "json": "exec_3__load_elf_binary_to_STARTTHREAD",
+        "name": "exec(3) load_elf_binary 2",
+        "details": [
+            ["e9dc6787bd8b76db6c4244fe", "load_elf_binaryからstart_threadまで"],
+            ["5003e3a52b979fb369f32fd6", "load_elf_binaryからfinalize_execまで"],
+            ["237f58190eb365f0accb7a75", "load_elf_binaryからarch_pick_mmap_layoutまで"]
+        ]
+    },
+    {
+        "json": "exec_4__load_script_to_do_dentry_open",
+        "name": "exec(4) load_script",
+        "details": [
+            ["f20708e4df7915043da55ac1", "load_scriptからdo_dentry_openまで"],
+            ["10185bb42483cf3298006b4b", "load_scriptからwalk_componentまで"]
+        ]
+    },
+    {
+        "json": "exec_5__do_execve_to_ sched_mm_cid_after_execve",
+        "name": "exec(5) sched",
+        "details": [
+            ["96492d79ff5cce4f2da01eeb", "do_execveからsched_mm_cid_after_execveまで"],
+            ["9d6a389a901cccab7103be84", "do_execveからselect_task_rqまで"]
+        ]
+    },
+    {
+        "json": "exit_1_mm__do_exit_to_pte_free_tlb",
+        "name": "exit(1) mm",
+        "details": [
+            ["c3ec544cc687ccdc55de03f0", "do_exitからvma_iter_clear_gfpまで"],
+            ["ff95124d5c56ddc7071a7670", "do_exitから__split_vmaまで"],
+            ["ca071b33e4f152d7aac70c77", "do_exitからxchg_relaxedまで"],
+            ["8a36edf3f7d7a8f71afc9ddf", "do_exitからtlb_flush_pte_rangeまで"],
+            ["4a94a3e6fe352c7c7aade8ca", "do_exitからfree_pteまで"],
+            ["8efbf10d7da6efe3660defe9", "do_exitから__pte_free_tlbと__free_pagesまで"],
+            ["036880f5c7673bbecb2ab8ca", "do_exitからpud_clearまで"]
+        ]
+    },
+    {
+        "json": "exit_2_fs__do_exit_to_mark_inode_dirty_sync",
+        "name": "exit(2) fs",
+        "details": [
+            ["30685ca5b63e1f709491325e", "do_exitからmark_inode_dirty_syncまで"],
+            ["6921f3f8ba5f6963580b5925", "do_exitからops->destroy_inodeまで"],
+            ["fbe376c4ee685180170c1192", "do_exitからops->evict_inodeまで"],
+            ["e0044c129d56d49d17b4cda3", "do_exitからunmap_mapping_range_treeまで"],
+            ["e1d48c77c848c16d8e960bc0", "do_exitから___d_dropまで"],
+            ["9a7aa8a8ecf1d27279ac6c66", "do_exitから__d_freeまで"]
+        ]
+    },
+    {
+        "json": "exit_3_evict_inode__ext4_evict_inode_to_mark_buffer_dirty_inode",
+        "name": "exit(3) fs evict_inode",
+        "details": [
+            ["204c2a0226ef1a934c935caa", "evict_inodeからmark_buffer_dirty_inode(simple)まで"],
+            ["9849a3d1b7c71a62f3a03632", "evict_inodeからmark_buffer_dirty_inodeまで"],
+            ["7549b50dfe64efdc839b1d90", "evict_inodeからclear_inodeまで"]
+        ]
+    },
+    {
+        "json": "exit_4_destroy_inode",
+        "name": "exit(4) fs destroy_inode",
+        "details": [
+        ]
+    },
+    {
+        "json": "exit_5_file__do_exit_to_security_file_free",
+        "name": "exit(5) file",
+        "details": [
+            ["c4c25c1a5aec3a4d9f6015cf", "do_exitからtask_work_addまで"],
+            ["2fc444a935e0ace5bc67661d", "do_exitから__fput_deferredまで"],
+            ["944da3afaf5f9d3b1385ed40", "do_exitから__file_ref_putまで"],
+            ["a8d08cdbb6600647835c283e", "do_exitからsecurity_file_freeまで"],
+            ["fa1084eec904f41c0dbecee2", "do_exitからfilp->f_op->flushまで"],
+            ["8e41f1e81ffdd08de620db9a", "do_exitからdo_slab_free(fd_table)まで"]
+        ]
+    },
+    {
+        "json": "exit_6_task_work__do_exit_to_task_work_run",
+        "name": "exit(6) file task_work",
+        "details": [
+            ["85646476ae6077ea9694518a", "do_exitからtask_work_runまで"]
+        ]
+    },
+    {
+        "json": "exit_7_task_dead__do_exit_to_WRITE_ONCE",
+        "name": "exit(7) task_dead",
+        "details": [
+            ["0b44bbda6b7588bf2434a77a", "do_exitからset_special_stateまで"]
+        ]
+    }
+]
