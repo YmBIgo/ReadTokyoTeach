@@ -64,21 +64,21 @@ const LP: React.FC = () => {
                 <div className="main-section3-explain">
                     <div className="main-section3-explain-item">
                         <span>1</span>
+                        <p>コードを</p>
+                        <h4>「クイズで学べる！」</h4>
+                        <img src="./icon_read.png" />
+                    </div>
+                    <div className="main-section3-explain-item">
+                        <span>2</span>
                         <p>コード知識を</p>
                         <h4>「可視化する！」</h4>
                         <img src="./icon_visualize.png" />
                     </div>
                     <div className="main-section3-explain-item">
-                        <span>2</span>
+                        <span>3</span>
                         <p>コード知識を</p>
                         <h4>「共有できる！」</h4>
                         <img src="./icon_share.png" />
-                    </div>
-                    <div className="main-section3-explain-item">
-                        <span>3</span>
-                        <p>コードを</p>
-                        <h4>「クイズで学べる！」</h4>
-                        <img src="./icon_read.png" />
                     </div>
                 </div>
                 <div className="main-section3-inner">
@@ -106,6 +106,31 @@ const LP: React.FC = () => {
                     <h4>
                         <span>01</span>
                         <span className="main-section4-title-content">
+                            コードを<strong>「クイズ形式で学べる！」</strong><br />
+                            <small>重要なロジックの流れをクイズ形式で学習</small>
+                        </span>
+                    </h4>
+                    <div>
+                        <h3>設計や俯瞰図のみならず、関数の流れを１つ１つクイズ形式で学ぶこともできます。</h3>
+                        <img className="main-section4-card-image" src="./linux_tokyo_1_teach.png" />
+                        <p>
+                            私たちのソリューションは、設計や俯瞰図だけではなく、コードの流れをクイズで学べる仕組みを作りました。
+                            <br />
+                            今の関数から「次に読むべき関数を選ぶ」クイズを出題できます！
+                            <ol>
+                                <li>コードの読解の正しい経路をインタラクティブに学べます</li>
+                                <li>クイズも重要な関数の流れに絞られているので、知識を体系的に学べます</li>
+                            </ol>
+                        </p>
+                        <p>
+                            <a className="button" href="https://linux.tokyo/explore/open_3_ext4_lookup__ext4_lookup_to_ext4_dx_find_entry" target="_blank">Linuxカーネルでの例</a>
+                        </p>
+                    </div>
+                </div>
+                <div className="main-section4-card">
+                    <h4>
+                        <span>02</span>
+                        <span className="main-section4-title-content">
                             コード知識を<strong>「可視化する！」</strong><br />
                             <small>難しいロジックの流れが木構造で表示</small>
                         </span>
@@ -127,7 +152,7 @@ const LP: React.FC = () => {
                 </div>
                 <div className="main-section4-card">
                     <h4>
-                        <span>02</span>
+                        <span>03</span>
                         <span className="main-section4-title-content">
                             コード知識を<strong>「共有できる！」</strong><br />
                             <small>関連するロジックだけに範囲絞り表示</small>
@@ -154,31 +179,6 @@ const LP: React.FC = () => {
                                     <u>「後輩社員が自分が考えた関連する箇所を共有」</u>し、<strong>先輩社員は後輩社員の思考が合っているかを確認できる</strong>
                                 </li>
                             </ol>
-                        </p>
-                    </div>
-                </div>
-                <div className="main-section4-card">
-                    <h4>
-                        <span>03</span>
-                        <span className="main-section4-title-content">
-                            コードを<strong>「クイズ形式で学べる！」</strong><br />
-                            <small>重要なロジックの流れをクイズ形式で学習</small>
-                        </span>
-                    </h4>
-                    <div>
-                        <h3>設計や俯瞰図のみならず、関数の流れを１つ１つクイズ形式で学ぶこともできます。</h3>
-                        <img className="main-section4-card-image" src="./linux_tokyo_1_teach.png" />
-                        <p>
-                            私たちのソリューションは、設計や俯瞰図だけではなく、コードの流れをクイズで学べる仕組みを作りました。
-                            <br />
-                            今の関数から「次に読むべき関数を選ぶ」クイズを出題できます！
-                            <ol>
-                                <li>コードの読解の正しい経路をインタラクティブに学べます</li>
-                                <li>クイズも重要な関数の流れに絞られているので、知識を体系的に学べます</li>
-                            </ol>
-                        </p>
-                        <p>
-                            <a className="button" href="https://linux.tokyo/explore/open_3_ext4_lookup__ext4_lookup_to_ext4_dx_find_entry" target="_blank">Linuxカーネルでの例</a>
                         </p>
                     </div>
                 </div>
